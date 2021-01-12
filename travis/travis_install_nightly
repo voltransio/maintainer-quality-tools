@@ -10,7 +10,7 @@ sudo apt-get install python3.7
 sudo apt-get install python3-pip
 
 python3 -c 'import sys; print(sys.version_info[:])'
-pip -V
+pip3 -V
 
 if [ "${LINT_CHECK}" != "0" ]; then
     pip3 install -Uq flake8=="3.4.1" Click pylint-mccabe pbr
@@ -113,28 +113,28 @@ if [[ "${MQT_DEP}" == "OCA" ]] ; then
     # Workaround to force using system site packages (see https://github.com/Shippable/support/issues/241#issuecomment-57947925)
     rm -f $VIRTUAL_ENV/lib/python2.7/no-global-site-packages.txt
     python3 -m pip install --upgrade --force pip
-    pip install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
+    pip3 install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
 
     # Remove python-ldap from odoo requirements because is not a common module used
     sed -i '/^python-ldap\=\=/d' ${ODOO_PATH}/requirements.txt
     # Use requests with [security] suffix to fix [Errno 111] Connection refused for old python2.7 versions.
     sed -i 's/^requests\=\=/requests[security]\=\=/g' ${ODOO_PATH}/requirements.txt
 
-    pip install -q -r ${ODOO_PATH}/requirements.txt
-    pip install -q QUnitSuite
+    pip3 install -q -r ${ODOO_PATH}/requirements.txt
+    pip3 install -q QUnitSuite
 
     echo "Getting addons dependencies"
     clone_oca_dependencies
 else
-    pip install --upgrade pip setuptools wheel
+    pip3 install --upgrade pip setuptools wheel
     # Needed for tour tests to not be skipped
-    pip install --upgrade websocket-client
+    pip3 install --upgrade websocket-client
 
     echo "Installing Odoo"
     pip3 install -r ${ODOO_PATH}/requirements.txt -e ${ODOO_PATH}
 
     echo "Installing addons to test and their dependencies"
-    pip install setuptools-odoo
+    pip3 install setuptools-odoo
     setuptools-odoo-make-default --clean --addons-dir .
     SHORT_VERSION=$(echo $VERSION | cut -d '.' -f 1)
     for addon in $(ls setup/ -I README -I _metapackage) ; do
@@ -142,13 +142,13 @@ else
         echo "-e file://${PWD}/setup/${addon}#egg=${addon_dist}" >> test-requirements.txt
     done
     # use OCA wheelhouse because it is slightly fresher than PyPI
-    pip install --pre -r test-requirements.txt \
+    pip3 install --pre -r test-requirements.txt \
         --extra-index-url https://wheelhouse.odoo-community.org/oca-simple/
 fi
 
 # Use reference .coveragerc
 cp ${HOME}/maintainer-quality-tools/cfg/.coveragerc .
-pip install coverage
+pip3 install coverage
 
 if [[ "${WKHTMLTOPDF_VERSION}" == "" && $(which wkhtmltopdf) != "" ]]; then
     echo "You have installed wkhtmltopdf but is not patched (probably) then we will overwrite it"
