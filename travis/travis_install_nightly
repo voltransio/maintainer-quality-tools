@@ -6,15 +6,15 @@ set -e
 sudo apt-get install python3.7 
 
 sudo apt-get install python3-pip 
-python -c 'import sys; print(sys.version_info[:])'
+python3 -c 'import sys; print(sys.version_info[:])'
 
 if [ "${LINT_CHECK}" != "0" ]; then
-    pip install -Uq flake8=="3.4.1" Click pylint-mccabe pbr
+    pip3 install -Uq flake8=="3.4.1" Click pylint-mccabe pbr
 
     # Install pylint plugin depends without lxml
     wget -q https://raw.githubusercontent.com/OCA/pylint-odoo/master/requirements.txt -O ${HOME}/maintainer-quality-tools/travis/pylint_odoo_requirements.txt
-    pip install --upgrade -r ${HOME}/maintainer-quality-tools/travis/pylint_odoo_requirements.txt
-    pip install --upgrade --pre --no-deps git+https://github.com/OCA/pylint-odoo.git   # To use last version ever
+    pip3 install --upgrade -r ${HOME}/maintainer-quality-tools/travis/pylint_odoo_requirements.txt
+    pip3 install --upgrade --pre --no-deps git+https://github.com/OCA/pylint-odoo.git   # To use last version ever
     sudo npm install -g eslint  # Extra package for pylint-odoo plugin
     if [ -f "${HOME}/.nvm/nvm.sh" ]; then
         # Update nodejs v11.latest required by eslint
@@ -109,15 +109,15 @@ if [[ "${MQT_DEP}" == "OCA" ]] ; then
     # Workaround to force using system site packages (see https://github.com/Shippable/support/issues/241#issuecomment-57947925)
     rm -f $VIRTUAL_ENV/lib/python2.7/no-global-site-packages.txt
     pip install --upgrade pip
-    pip install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
+    pip3 install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
 
     # Remove python-ldap from odoo requirements because is not a common module used
     sed -i '/^python-ldap\=\=/d' ${ODOO_PATH}/requirements.txt
     # Use requests with [security] suffix to fix [Errno 111] Connection refused for old python2.7 versions.
     sed -i 's/^requests\=\=/requests[security]\=\=/g' ${ODOO_PATH}/requirements.txt
 
-    pip install -q -r ${ODOO_PATH}/requirements.txt
-    pip install -q QUnitSuite
+    pip3 install -q -r ${ODOO_PATH}/requirements.txt
+    pip3 install -q QUnitSuite
 
     echo "Getting addons dependencies"
     clone_oca_dependencies
@@ -127,7 +127,7 @@ else
     pip install --upgrade websocket-client
 
     echo "Installing Odoo"
-    pip install -r ${ODOO_PATH}/requirements.txt -e ${ODOO_PATH}
+    pip3 install -r ${ODOO_PATH}/requirements.txt -e ${ODOO_PATH}
 
     echo "Installing addons to test and their dependencies"
     pip install setuptools-odoo
