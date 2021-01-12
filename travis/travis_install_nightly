@@ -8,7 +8,8 @@ sudo apt-get install python3.7
 sudo apt-get install python3-pip 
 python3 -c 'import sys; print(sys.version_info[:])'
 
-pip3 install --upgrade --force pip
+pip uninstall pip
+python3 -m pip install --upgrade --force pip
 pip -V
 
 if [ "${LINT_CHECK}" != "0" ]; then
@@ -111,7 +112,7 @@ MQT_DEP=${MQT_DEP:-OCA}
 if [[ "${MQT_DEP}" == "OCA" ]] ; then
     # Workaround to force using system site packages (see https://github.com/Shippable/support/issues/241#issuecomment-57947925)
     rm -f $VIRTUAL_ENV/lib/python2.7/no-global-site-packages.txt
-    pip install --upgrade pip
+    python3 -m pip install --upgrade --force pip
     pip install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
 
     # Remove python-ldap from odoo requirements because is not a common module used
