@@ -15,9 +15,6 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3.7 get-pip.py
 python3.7 -m pip install pip
 pip3 -V
-pip -V
-
-
 
 if [ "${LINT_CHECK}" != "0" ]; then
     pip3 install -Uq flake8=="3.4.1" Click pylint-mccabe pbr
@@ -122,15 +119,15 @@ if [[ "${MQT_DEP}" == "OCA" ]] ; then
 
     # Workaround to force using system site packages (see https://github.com/Shippable/support/issues/241#issuecomment-57947925)
     rm -f $VIRTUAL_ENV/lib/python2.7/no-global-site-packages.txt
-    pip3 install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
+    python3.7 -m pip install -q -r ${HOME}/maintainer-quality-tools/requirements.txt
 
     # Remove python-ldap from odoo requirements because is not a common module used
     sed -i '/^python-ldap\=\=/d' ${ODOO_PATH}/requirements.txt
     # Use requests with [security] suffix to fix [Errno 111] Connection refused for old python2.7 versions.
     sed -i 's/^requests\=\=/requests[security]\=\=/g' ${ODOO_PATH}/requirements.txt
 
-    pip3 install -q -r ${ODOO_PATH}/requirements.txt
-    pip3 install -q QUnitSuite
+    python3.7 -m pip install -q -r ${ODOO_PATH}/requirements.txt
+    python3.7 -m pip install -q QUnitSuite
 
     echo "Getting addons dependencies"
     clone_oca_dependencies
