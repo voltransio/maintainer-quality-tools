@@ -9,7 +9,7 @@ if [ "${LINT_CHECK}" != "0" ]; then
     wget -q https://raw.githubusercontent.com/OCA/pylint-odoo/master/requirements.txt -O ${HOME}/maintainer-quality-tools/travis/pylint_odoo_requirements.txt
     pip install --upgrade -r ${HOME}/maintainer-quality-tools/travis/pylint_odoo_requirements.txt
     pip install --upgrade --pre --no-deps git+https://github.com/OCA/pylint-odoo.git   # To use last version ever
-    npm install -g eslint  # Extra package for pylint-odoo plugin
+    sudo npm install -g eslint  # Extra package for pylint-odoo plugin
     if [ -f "${HOME}/.nvm/nvm.sh" ]; then
         # Update nodejs v11.latest required by eslint
         # Using nvm of travis
@@ -29,7 +29,7 @@ fi
 # Install less
 ln -s `which nodejs` $HOME/maintainer-quality-tools/travis/node
 # Remove fixed version after fix https://github.com/odoo/odoo/issues/25632
-npm install -g less@3.0.4 less-plugin-clean-css
+sudo npm install -g less@3.0.4 less-plugin-clean-css
 
 if [ "${WEBSITE_REPO}" == "1" ]; then
     if [ -f ~/.rvm/scripts/rvm ]; then
