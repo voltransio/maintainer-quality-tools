@@ -10,6 +10,7 @@ python3 -c 'import sys; print(sys.version_info[:])'
 
 pip uninstall pip
 python3 -m pip install --upgrade --force pip
+export PATH="$PATH:/home/runner/.local/bin"
 pip -V
 
 if [ "${LINT_CHECK}" != "0" ]; then
