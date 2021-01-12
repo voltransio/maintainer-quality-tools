@@ -2,15 +2,14 @@
 
 set -e
 
-# upgrade python
+# remove python 2.7
+sudo apt-get purge python2.7-minimal
+
+# re-install python 3
 sudo apt-get install python3.7 
+sudo apt-get install python3-pip
 
-sudo apt-get install python3-pip 
 python3 -c 'import sys; print(sys.version_info[:])'
-
-pip uninstall pip
-python3 -m pip install --upgrade --force pip
-export PATH="$PATH:/home/runner/.local/bin"
 pip -V
 
 if [ "${LINT_CHECK}" != "0" ]; then
