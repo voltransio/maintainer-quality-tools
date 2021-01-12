@@ -8,9 +8,11 @@ sudo apt-get purge python2.7-minimal
 # re-install python 3
 sudo apt-get install python3.7 
 sudo apt-get install python3-pip
+sudo apt-get install python-pip
 
 python3 -c 'import sys; print(sys.version_info[:])'
 pip3 -V
+pip -V
 
 sudo apt-get update
 
