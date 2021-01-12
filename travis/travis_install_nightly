@@ -11,6 +11,9 @@ sudo apt-get install python3-pip
 sudo apt-get update
 python3 -m pip install --upgrade --force pip
 python3 -c 'import sys; print(sys.version_info[:])'
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3.7 get-pip.py
+python3.7 -m pip install pip
 pip3 -V
 pip -V
 
